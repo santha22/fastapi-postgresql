@@ -34,3 +34,13 @@ def add_User(user: User):
 
     return newUser
 
+
+@app.put("/update/{user_id}", response_model=User, status_code=status.HTTP_202_ACCEPTED)
+def updatePerson(user_id: int, user: User):
+    find_user = db.query(models.User).filter(models.User.id == user_id).first()
+    find_user.id = user.id
+    find_user.name = user.name
+    find_user.email = user.email
+
+    db.commit()
+    return find_user
